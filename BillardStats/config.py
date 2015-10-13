@@ -1,8 +1,13 @@
 import ConfigParser
-import datetime
 
 class ConfigurationIni(object):
-    def __init__(self, filename, default_config, section_name='flask'):
+    CONFIGS = [
+        ('DEBUG', bool),
+        ('SQLALCHEMY_DATABASE_URI', str),
+        ('SQLALCHEMY_ECHO', bool)
+    ]
+
+    def __init__(self, filename, section_name='flask'):
         #Parsed configuration will be stored here
         self.configuration = {}
 
@@ -10,29 +15,23 @@ class ConfigurationIni(object):
         self._cfg.read(filename)
 
         #Now parse the ini section and load it into configuration dict
-        self._parse_ini_file(section_name, default_config)
+        self._parse_ini_file(section_name)
 
 
-    def _parse_ini_file(self, section_name, default_config):
-        for key, _ in self._cfg.items(section_name):
-            self._load_cfg_item(section_name, key, default_config)
+    def _parse_ini_file(self, section_name):
+        parse_mapping = {
+            bool: self._cfg.getboolean,
+            int: self._cfg.getint,
+            float: self._cfg.getfloat,
+            str: self._cfg.get,
+        }
 
-
-    def _load_cfg_item(self, section_name, key, default_config):
-        default = default_config.get(key)
-
-        # One of the default config vars is a timedelta - interpret it
-        # as an int and construct using
-        if isinstance(default, datetime.timedelta):
-            self.configuration[key] = datetime.timedelta(
-                self._cfg.getint(section_name, key))
-        elif isinstance(default, bool):
-            self.configuration[key] = self._cfg.getboolean(section_name, key)
-        elif isinstance(default, float):
-            self.configuration[key] = self._cfg.getfloat(section_name, key)
-        elif isinstance(default, int):
-            self.configuration[key] = self._cfg.getint(section_name, key)
-
+        for cfg, _type in ConfigurationIni.CONFIGS:
+            cfg_lower = cfg.lower()
+            if self._cfg.has_option(section_name, cfg_lower):
+                val = parse_mapping[_type](section_name, cfg_lower)
+                if val is not None:
+                    self.configuration[cfg] = val
 
     def load_configuration(self, app):
         for key, value in self.configuration.iteritems():
@@ -45,7 +44,7 @@ def configure_app(app, filename='config.ini'):
     :type app: flask.Flask
     :return:
     """
-    config_ini = ConfigurationIni(filename, app.default_config)
+    config_ini = ConfigurationIni(filename)
 
     #apply the configuration to our app!
     config_ini.load_configuration(app)
