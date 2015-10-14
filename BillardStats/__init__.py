@@ -3,7 +3,7 @@ from flask import Flask
 from BillardStats.models import db
 from BillardStats.config import configure_app
 
-import BillardStats.controllers.api
+import BillardStats.views.api
 
 app = Flask(__name__)
 #api = Api(app)
@@ -15,4 +15,4 @@ configure_app(app)
 db.init_app(app)
 
 #Register API blueprint
-app.register_blueprint(BillardStats.controllers.api.api_view, url_prefix='/api')
+app.register_blueprint(BillardStats.views.api.api_view, url_prefix='/api')

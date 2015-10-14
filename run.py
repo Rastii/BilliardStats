@@ -8,5 +8,8 @@ if __name__ == "__main__":
 
    if sys.argv[1] == 'shell':
        import IPython
-       IPython.embed()
+       app = BillardStats.app
+       BillardStats.models.db.init_app(app)
+       with app.app_context():
+           IPython.embed()
        sys.exit()

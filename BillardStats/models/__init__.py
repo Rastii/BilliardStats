@@ -45,18 +45,11 @@ class Game(db.Model):
         self.winner_user = winning_user
         self.losing_user = losing_user
 
-    def to_dict(self, raw=True, tc=convert_time):
-        d = {
+    def to_dict(self, tc=convert_time):
+        return {
             'id': self.id,
             'start_time': tc(self.start_time),
-            'end_time': tc(self.end_time)
+            'end_time': tc(self.end_time),
+            'winning_user': self.winner_user.to_dict(),
+            'losing_user': self.losing_user.to_dict()
         }
-
-        if raw:
-            d['winner_user_id'] = self.winner_user_id
-            d['loser_user_id'] = self.loser_user_id
-        else:
-            d['winning_user'] = self.winner_user.to_dict()
-            d['losing_user'] = self.losing_user.to_dict()
-
-        return d
