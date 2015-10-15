@@ -4,6 +4,11 @@ class Error(Exception):
     def __init__(self, msg=None):
         Exception.__init__(self, msg or self.__class__.__name__)
 
+class ControllerError(Error):
+    """
+    """
+    msg = 'Unknown Error'
+
 class DuplicateUser(Error):
     """
     This exception is raised when the DB already contains an user,

@@ -1,7 +1,6 @@
 import BillardStats.models as models
 import BillardStats.controllers
 
-# USER ROUTES
 def get_users():
     users = models.User.query
     return [u.to_dict() for u in users]
@@ -42,18 +41,3 @@ def add_user(username):
 
     #We want to return the user info so the requester has the new ID
     return user.to_dict()
-
-
-# GAME ROUTES
-def get_games():
-    games = models.Game.query
-    return [g.to_dict() for g in games]
-
-def get_game(game_id):
-    game = models.Game.query.filter(models.Game.id == game_id).first()
-
-    if not game:
-        return {}
-
-    return game.to_dict()
-

@@ -7,7 +7,7 @@ with app.app_context():
     user1 = models.User('Bacon')
     user2 = models.User('Veggie')
 
-    game1 = models.Game(user1, user2)
+    game1 = models.Game(winning_user=user1, losing_user=user2)
 
     models.db.session.add(user1)
     models.db.session.add(user2)
