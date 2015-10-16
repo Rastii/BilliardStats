@@ -1,10 +1,14 @@
 import ConfigParser
+import logging
+import logging.handlers
 
 class ConfigurationIni(object):
     CONFIGS = [
         ('DEBUG', bool),
         ('SQLALCHEMY_DATABASE_URI', str),
-        ('SQLALCHEMY_ECHO', bool)
+        ('SQLALCHEMY_ECHO', bool),
+        ('LOG_FILE', str),
+        ('LOG_FILE_MAX_BYTES', int)
     ]
 
     def __init__(self, filename, section_name='flask'):
@@ -37,8 +41,6 @@ class ConfigurationIni(object):
         for key, value in self.configuration.iteritems():
             app.config[key] = value
 
-
-
 def configure_app(app, filename='config.ini'):
     """
     :type app: flask.Flask
@@ -49,3 +51,12 @@ def configure_app(app, filename='config.ini'):
     #apply the configuration to our app!
     config_ini.load_configuration(app)
 
+    #Apply logging
+    log_file_handler = logging.handlers.RotatingFileHandler(
+        app.config.get('LOG_FILE', app.name + '.log'),
+        maxBytes=app.config.get('LOG_FILE_MAX_BYTES', 10000),
+        backupCount=1
+    )
+    log_file_handler.setLevel(logging.DEBUG if app.debug else logging.ERROR)
+
+    app.logger.addHandler(log_file_handler)

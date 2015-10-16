@@ -1,3 +1,5 @@
+import sqlalchemy as sql_a
+
 import BillardStats.models as models
 import BillardStats.controllers
 
@@ -9,7 +11,9 @@ def get_user(user_id=None, username=None):
     if user_id:
         user = models.User.query.filter(models.User.id == user_id).first()
     else:
-        user = models.User.query.filter(models.User.name == username).first()
+        user = models.User.query.filter(
+            sql_a.func.lower(models.User.name) == sql_a.func.lower(username))\
+            .first()
 
     if not user:
         return {}
@@ -31,7 +35,7 @@ def get_user_losses(user_id):
 def add_user(username):
     #Check if User exists
     if get_user(username=username):
-        raise BillardStats.controllers.DuplicateEntity(
+        raise BillardStats.controllers.DuplicateUser(
             'Username "%s" already exists' % username)
 
     #Doesn't exist, let's create the user.

@@ -1,5 +1,5 @@
 from flask import Flask
-#from flask_restful import Api
+
 from BillardStats.models import db
 from BillardStats.config import configure_app
 
