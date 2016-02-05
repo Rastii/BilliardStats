@@ -1,4 +1,4 @@
-from BillardStats import app, models
+from BilliardStats import app, models
 
 with app.app_context():
     models.db.drop_all()

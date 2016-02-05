@@ -1,5 +1,5 @@
-import BillardStats.models as models
-import BillardStats.controllers
+import BilliardStats.models as models
+import BilliardStats.controllers
 import sqlalchemy
 
 def get_games():
@@ -27,7 +27,7 @@ def add_game(winning_user_id, loser_user_id, start_time=None, end_time=None):
     )).all()
 
     if len(users) != 2:
-        raise BillardStats.controllers.UnknownUser(
+        raise BilliardStats.controllers.UnknownUser(
             'An invalid user_id was specified')
 
     game = models.Game(winning_user_id=winning_user_id,

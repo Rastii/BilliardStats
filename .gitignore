@@ -1,3 +1,11 @@
+# JS
+node_modules
+
+# config
+config.ini
+BilliardStats/data.db
+BilliardStats/log.log
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

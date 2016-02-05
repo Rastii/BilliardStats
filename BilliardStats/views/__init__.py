@@ -2,7 +2,7 @@ import flask
 import json
 import functools
 import werkzeug.exceptions
-import BillardStats
+import BilliardStats
 
 class Error(Exception):
     code = None
@@ -75,8 +75,8 @@ def json_response(method):
         #We want to log ALL exceptions.  If we are in DEBUG mode, then have
         #werkzeug display the trace
         except Exception as e:
-            BillardStats.app.logger.exception(e)
-            if BillardStats.app.debug:
+            BilliardStats.app.logger.exception(e)
+            if BilliardStats.app.debug:
                 raise
             formatted_data = __formatted_data(
                 status=400,
