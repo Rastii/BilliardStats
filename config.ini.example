@@ -1,0 +1,6 @@
+[flask]
+DEBUG = True
+SQLALCHEMY_DATABASE_URI = db_uri
+SQLALCHEMY_ECHO = False
+LOG_FILE = log_file
+LOG_FILE_MAX_BYTES = 100000
