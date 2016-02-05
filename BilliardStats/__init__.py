@@ -1,10 +1,10 @@
 from flask import Flask
 
-from BillardStats.models import db
-from BillardStats.config import configure_app
+from BilliardStats.models import db
+from BilliardStats.config import configure_app
 
-import BillardStats.views.users
-import BillardStats.views.games
+import BilliardStats.views.users
+import BilliardStats.views.games
 
 app = Flask(__name__)
 #api = Api(app)
@@ -16,7 +16,7 @@ configure_app(app)
 db.init_app(app)
 
 #Register API blueprints
-app.register_blueprint(BillardStats.views.users.users_view,
+app.register_blueprint(BilliardStats.views.users.users_view,
                        url_prefix='/api/users')
-app.register_blueprint(BillardStats.views.games.games_view,
+app.register_blueprint(BilliardStats.views.games.games_view,
                        url_prefix='/api/games')

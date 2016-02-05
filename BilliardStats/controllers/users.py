@@ -1,7 +1,7 @@
 import sqlalchemy as sql_a
 
-import BillardStats.models as models
-import BillardStats.controllers
+import BilliardStats.models as models
+import BilliardStats.controllers
 
 def get_users():
     users = models.User.query
@@ -35,7 +35,7 @@ def get_user_losses(user_id):
 def add_user(username):
     #Check if User exists
     if get_user(username=username):
-        raise BillardStats.controllers.DuplicateUser(
+        raise BilliardStats.controllers.DuplicateUser(
             'Username "%s" already exists' % username)
 
     #Doesn't exist, let's create the user.
